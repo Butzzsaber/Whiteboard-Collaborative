@@ -1,4 +1,4 @@
-import { createElement } from "./createElement";
+import { createElement } from ".";
 import { toolTypes } from "../../constants";
 import { store } from "../../store/store";
 import { setElements } from "../whiteboardSlice";
@@ -20,8 +20,8 @@ export const updateElement =({id,x1,x2,y1,y2,type,index},elements) => {
 
             store.dispatch(setElements(elementCopy));
             break;
-            default:
-              throw new Error("tool not found");
+    default:
+           throw new Error("tool not found");
           }
 
 };

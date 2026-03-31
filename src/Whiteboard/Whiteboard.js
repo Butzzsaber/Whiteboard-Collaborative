@@ -31,12 +31,12 @@ const Whiteboard = () => {
     
     const rc = rough.canvas(canvas);
     elements.forEach((element) => {
-    drawElement({ roughCanvas, context:ctx, element });  
+    drawElement({ roughCanvas: rc, context:ctx, element });  
     }
     );
 
     
-  },[]);
+  },[elements]);
   const handleMouseDown = (event) => {
      const {clientX, clientY} = event;
      console.log(toolType);
@@ -77,7 +77,7 @@ const Whiteboard = () => {
             y1: elements[index].y1,
             x2: clientX,
             y2: clientY,
-            toolType: elements[index].type,
+            type: elements[index].type,
           },elements);
         }
       }

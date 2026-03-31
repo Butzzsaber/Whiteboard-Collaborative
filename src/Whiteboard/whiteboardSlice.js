@@ -24,10 +24,11 @@ const whiteboardSlice = createSlice({
 
       }
     },
-  },
-  setElements: (state, action) => {
+    setElements: (state, action) => {
     state.elements = action.payload;
   },
+  },
+  
 });
 
 export const { setToolType, updateElements,setElements} = whiteboardSlice.actions;

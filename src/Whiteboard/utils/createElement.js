@@ -2,7 +2,7 @@ import { toolTypes } from "../../constants";
 import rough from 'roughjs/bundled/rough.esm';
 
 const generator = rough.generator();
-const generateRetangle = (x1,y1,x2,y2) => {
+const generateRectangle = (x1,y1,x2,y2) => {
     return generator.rectangle(x1,y1,x2-x1,y2-y1);
 }
 
@@ -12,7 +12,7 @@ export const createElement = ({x1,y1,x2,y2,toolType,id})=> {
 
     switch(toolType){
         case toolTypes.RECTANGLE :
-              roughElement = generateRetangle({x1,y1,x2,y2 });
+              roughElement = generateRectangle(x1,y1,x2,y2);
               return{
                 id:id,
                 roughElement,
