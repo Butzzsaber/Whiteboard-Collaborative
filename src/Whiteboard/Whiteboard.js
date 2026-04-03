@@ -7,24 +7,13 @@ import { useState } from "react";
 import { createElement,updateElement,drawElement } from "./utils/index";
 import { v4 as uuid } from "uuid";
 import { updateElements as updateElementsInStore } from "./whiteboardSlice";
-import { io } from "socket.io-client";
+
 
 let selectedElement;
 
 const setSelectedElement = (el) => {
   selectedElement = el;
 };
-
-const socket = io("http://localhost:5000/");
-
-  
-socket.on("connect", () => {
-  console.log(socket.id); 
-});
-
-socket.on("disconnect", () => {
-  console.log(socket.id); 
-});
 
 
 
