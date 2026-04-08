@@ -7,6 +7,8 @@ export const updateElement =({id,x1,x2,y1,y2,type,index},elements) => {
     const elementCopy = [...elements];
     
     switch(type){
+    case toolTypes.LINE:
+    case toolTypes.CIRCLE:
     case toolTypes.RECTANGLE:
           const updateElement = createElement({
             id,
@@ -20,6 +22,19 @@ export const updateElement =({id,x1,x2,y1,y2,type,index},elements) => {
 
             store.dispatch(setElements(elementCopy));
             break;
+    case toolTypes.PENCIL:
+          elementCopy[index] = {
+            ...elementCopy[index],
+            points: [
+                ...elementCopy[index].points,
+                {
+                    x:x2,
+                    y:y2,
+                }
+            ]
+        } 
+        const updatedPencilElement = elementCopy[index];
+        store.dispatch(setElements(elementCopy));
     default:
            throw new Error("tool not found");
           }

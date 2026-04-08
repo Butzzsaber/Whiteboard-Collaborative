@@ -44,11 +44,10 @@ const Whiteboard = () => {
   const handleMouseDown = (event) => {
      const {clientX, clientY} = event;
      console.log(toolType);
-     
-     if(toolType === toolTypes.RECTANGLE){
+
+     if(toolType === toolTypes.RECTANGLE || toolType === toolTypes.LINE || toolType === toolTypes.CIRCLE || toolType === toolTypes.PENCIL){
        setActions(actions.DRAWING);
-     }
-     const element = createElement({
+        const element = createElement({
       x1: clientX,
       y1: clientY,
       x2: clientX,
@@ -60,6 +59,9 @@ const Whiteboard = () => {
      setSelectedElement(element);
 
      dispatch(updateElementsInStore(element));
+    
+     }
+    
      
 
     };
@@ -84,6 +86,9 @@ const Whiteboard = () => {
             type: elements[index].type,
           },elements);
         }
+        console.log("selectedElement:", selectedElement);
+console.log("elements:", elements);
+console.log("index:", index);
       }
     }
 
