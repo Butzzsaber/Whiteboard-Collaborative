@@ -21,7 +21,7 @@ const whiteboardSlice = createSlice({
         state.elements.push(action.payload);
       }
       else{
-
+        state.elements[index] = action.payload;
       }
     },
     setElements: (state, action) => {
