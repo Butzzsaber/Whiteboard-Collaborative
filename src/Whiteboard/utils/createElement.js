@@ -5,7 +5,21 @@ const generator = rough.generator();
 const generateRectangle = (x1,y1,x2,y2) => {
     return generator.rectangle(x1,y1,x2-x1,y2-y1);
 }
+const generateLine = (x1,y1,x2,y2) => {
+    return generator.line(x1,y1,x2,y2);
+}
+const generateCircle = (x1, y1, x2, y2) => {
+  const radius = Math.sqrt(
+    Math.pow(x2 - x1, 2) +
+    Math.pow(y2 - y1, 2)
+  );
 
+  return generator.circle(
+    x1,
+    y1,
+    radius * 2
+  );
+};
 export const createElement = ({x1,y1,x2,y2,toolType,id})=> {
     let roughElement;
 
@@ -21,6 +35,35 @@ export const createElement = ({x1,y1,x2,y2,toolType,id})=> {
                 x2,
                 y1,
                 y2,
+              };
+        case toolTypes.LINE :
+              roughElement = generateLine(x1,y1,x2,y2);
+              return{ 
+                id:id,
+                roughElement,
+                type:toolType,
+                x1,
+                x2,
+                y1,
+                y2,
+              };
+        case toolTypes.CIRCLE :
+              roughElement = generateCircle(x1,y1,x2,y2);
+              return{
+                id:id,
+                roughElement,
+                type:toolType,
+                x1,
+                x2,
+                y1,
+                y2,
+
+              };
+        case toolTypes.PENCIL:
+              return{
+                id:id,
+                type:toolType,
+                points: [{x:x1,y:y1}],
               };
         default:
                throw new Error("tool not found");
