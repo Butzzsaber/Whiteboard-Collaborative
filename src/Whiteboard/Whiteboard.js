@@ -109,7 +109,7 @@ const Whiteboard = () => {
    
      });
      setSelectedElement(element);
-
+     socket.emit("draw-start", selectedElement);
      dispatch(updateElementsInStore(element));
     
      }
@@ -117,19 +117,38 @@ const Whiteboard = () => {
      
 
     };
-    const handleMouseUp = () => {
-      const sendElement = {
-        id: selectedElement.id,
-        toolType: selectedElement.type,
-        x1: selectedElement.x1,
-        y1: selectedElement.y1,
-        x2: selectedElement.x2,
-        y2: selectedElement.y2
-      };
-      console.log("mouseUp: ", sendElement);
-      socket.emit("draw-end", selectedElement);
+    const handleMouseUp = (event) => {
+      const {clientX, clientY} = event;
+
+      if(action === actions.DRAWING){
+        const index = elements.findIndex((el) => el.id === selectedElement.id);
+
+        if(index!==-1){
+          const updateElementData = {
+            index,
+            id:elements[index].id,
+            x1: elements[index].x1,
+            y1: elements[index].y1,
+            x2: clientX,
+            y2: clientY,
+            type: elements[index].type,
+          }
+
+          updateElement(updateElementData,elements);
+        
+          if (!socket) {
+            console.log("socket not ready");
+            return;
+          }
+          socket.emit("draw-end", updateElementData);
+
+          console.log("mouseUp: ", updateElementData);
+          
+        }
+      
       setActions(null);
       setSelectedElement(null);
+      }
     }
     const handleMouseMove = (event) =>{
       const {clientX, clientY} = event;
