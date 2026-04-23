@@ -3,7 +3,7 @@ import getStroke from 'perfect-freehand';
 import { getSvgPathFromStroke } from "./getSvgPathFromStroke";
 
 const drawPencilElement = (context, element) => {
-    const myStroke = getStroke(element.ponts,{
+    const myStroke = getStroke(element.points,{
         size: 10,
         smoothing: 0.5,
     });
@@ -20,7 +20,7 @@ export const drawElement = ({ roughCanvas, context, element }) => {
         case toolTypes.CIRCLE:
             return roughCanvas.draw(element.roughElement);
         case toolTypes.PENCIL:
-            drawPencilElement(context, element);
+            return drawPencilElement(context, element);
         default:
             throw new Error("tool not found");
     }

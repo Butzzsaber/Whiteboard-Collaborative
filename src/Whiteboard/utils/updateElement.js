@@ -35,6 +35,7 @@ export const updateElement =({id,x1,x2,y1,y2,type,index},elements) => {
         } 
         const updatedPencilElement = elementCopy[index];
         store.dispatch(setElements(elementCopy));
+        break;
     default:
            throw new Error("tool not found");
           }
