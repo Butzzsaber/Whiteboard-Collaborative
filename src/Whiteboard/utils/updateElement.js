@@ -36,8 +36,27 @@ export const updateElement =({id,x1,x2,y1,y2,type,index},elements) => {
         const updatedPencilElement = elementCopy[index];
         store.dispatch(setElements(elementCopy));
         break;
+    case toolTypes.TEXT:
+         const textWidth= document.getElementById("canvas").getContext("2d").measureText(text).width;
+        const textHeight = 25;
+
+          elementCopy[index] = {
+            ...createElement({
+                id,
+                x1,
+                y1,
+                x2:x1 + textWidth,
+                y2:y1 + textHeight,
+                toolType:type,
+                text,
+            }),
+           };
+           const updatedTextElement = elementCopy[index];
+            store.dispatch(setElements(elementCopy));
+            emitElementUpdate(updatedTextElement);
+            break;
     default:
-           throw new Error("tool not found");
-          }
+        throw new Error("tool not found");
+  }
 
 };

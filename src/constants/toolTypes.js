@@ -3,5 +3,6 @@ export const toolTypes = {
     LINE : "LINE",
     CIRCLE: "CIRCLE",
     PENCIL: "PENCIL",
+    TEXT: "TEXT",
 
 }

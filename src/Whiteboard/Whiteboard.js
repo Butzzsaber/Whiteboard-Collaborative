@@ -10,21 +10,24 @@ import { updateElements as updateElementsInStore, setElements } from "./whiteboa
 import { socket } from "../socketconn/socketConn";
 
 
-let selectedElement;
+// let selectedElement;
 
-const setSelectedElement = (el) => {
-  selectedElement = el;
-};
+// const setSelectedElement = (el) => {
+//   selectedElement = el;
+// };
 
 
 
 
 const Whiteboard = () => {
   const canvasRef = useRef();
+  const textAreaRef = useRef();
   const toolType = useSelector((state)=>state.whiteboard.tool);
-  const [action, setActions] = useState(null)
+  const [action, setActions] = useState(null);
+  const [selectedElement, setSelectedElement] = useState(null);
   const elements = useSelector((state) => state.whiteboard.elements);
   const dispatch = useDispatch();
+
 
   useLayoutEffect(() =>{
     console.log("Drawing elements:", elements);
@@ -95,11 +98,12 @@ const Whiteboard = () => {
 
   const handleMouseDown = (event) => {
      const {clientX, clientY} = event;
-     console.log(toolType);
 
-     if(toolType === toolTypes.RECTANGLE || toolType === toolTypes.LINE || toolType === toolTypes.CIRCLE || toolType === toolTypes.PENCIL){
-       setActions(actions.DRAWING);
-        const element = createElement({
+     if(selectedElement && action === actions.WRITING){
+      return;
+     }
+     
+     const element = createElement({
       x1: clientX,
       y1: clientY,
       x2: clientX,
@@ -108,15 +112,23 @@ const Whiteboard = () => {
       id: uuid(),
    
      });
-     setSelectedElement(element);
-     socket.emit("draw-start", selectedElement);
-     dispatch(updateElementsInStore(element));
-    
-     }
-    
-     
+    switch(toolType){
+      case toolTypes.RECTANGLE:
+      case toolTypes.LINE:
+      case toolTypes.CIRCLE:
+      case toolTypes.PENCIL:{
+        setActions(actions.DRAWING);
+        break;
+      }
+      case toolTypes.TEXT:{
+        setActions(actions.WRITING);
+        break;
+      }
+    }
+    setSelectedElement(element);
 
-    };
+    dispatch(updateElementsInStore(element));
+     };
     const handleMouseUp = (event) => {
       const {clientX, clientY} = event;
 
@@ -183,17 +195,53 @@ console.log("index:", index);
       }
     }
 
+  const handleTextareaBlur = (event) => {
+    const {id,x1,y1,type} = selectedElement;
+
+
+    const index = elements.findIndex((el) => el.id === selectedElement.id);
+    if(index !== -1){
+      updateElement({
+        id,
+        x1,
+        y1,
+        text: event.target.value,
+        index}, elements);
+        setActions(null);
+
+    }
+  };
  
   
   return (
     <div>
       <Menu />
+      {action === actions.WRITING ? <textarea
+      ref={textAreaRef}
+      onBlur={handleTextareaBlur}
+      style={{
+        position: "absolute",
+        left: selectedElement.x1,
+        top: selectedElement.y1 - 3,
+        fontSize: "16px",
+        font: '25px Sans-Serif',
+        margin: 0,
+        padding: 0,
+        border: "1px solid black",
+        resize: "auto",
+        overflow: "hidden",
+        background: "transparent",
+        whiteSpace: "pre",
+
+      }}
+      /> : null}
       <canvas ref={canvasRef}
              onMouseDown={handleMouseDown}
              onMouseUp={handleMouseUp}
              onMouseMove={handleMouseMove}
              width = {window.innerWidth}
              height = {window.innerHeight}
+             id="canvas"
              
       
       />

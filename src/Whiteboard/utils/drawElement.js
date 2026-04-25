@@ -13,6 +13,12 @@ const drawPencilElement = (context, element) => {
     context.fill(mypath);
 };
 
+const drawTextElement = (context, element) => {
+    context.textBaseline = "top";
+    context.font = "25px sans-serif";
+    context.fillText(element.text, element.x1, element.y1);
+};
+
 export const drawElement = ({ roughCanvas, context, element }) => {
     switch (element.type){
         case toolTypes.RECTANGLE:
@@ -21,6 +27,9 @@ export const drawElement = ({ roughCanvas, context, element }) => {
             return roughCanvas.draw(element.roughElement);
         case toolTypes.PENCIL:
             return drawPencilElement(context, element);
+        case toolTypes.TEXT:
+            drawTextElement(context, element);
+            break;
         default:
             throw new Error("tool not found");
     }

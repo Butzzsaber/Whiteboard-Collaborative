@@ -20,7 +20,7 @@ const generateCircle = (x1, y1, x2, y2) => {
     radius * 2
   );
 };
-export const createElement = ({x1,y1,x2,y2,toolType,id})=> {
+export const createElement = ({x1,y1,x2,y2,toolType,id,text})=> {
     let roughElement;
 
 
@@ -65,6 +65,14 @@ export const createElement = ({x1,y1,x2,y2,toolType,id})=> {
                 type:toolType,
                 points: [{x:x1,y:y1}],
               };
+        case toolTypes.TEXT:
+              return{
+                id:id,
+                type:toolType,
+                x1,
+                y1,
+                text:text || "",
+              }
         default:
                throw new Error("tool not found");
 
