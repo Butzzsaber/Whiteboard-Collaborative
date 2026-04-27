@@ -206,8 +206,10 @@ console.log("index:", index);
         x1,
         y1,
         text: event.target.value,
-        index}, elements);
-        setActions(null);
+        type,
+        index
+      }, elements);
+      setActions(null);
 
     }
   };

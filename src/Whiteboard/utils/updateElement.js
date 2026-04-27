@@ -3,7 +3,7 @@ import { toolTypes } from "../../constants";
 import { store } from "../../store/store";
 import { setElements } from "../whiteboardSlice";
 
-export const updateElement =({id,x1,x2,y1,y2,type,index},elements) => {
+export const updateElement =({id,x1,x2,y1,y2,type,text,index},elements) => {
     const elementCopy = [...elements];
     
     switch(type){
@@ -53,7 +53,7 @@ export const updateElement =({id,x1,x2,y1,y2,type,index},elements) => {
            };
            const updatedTextElement = elementCopy[index];
             store.dispatch(setElements(elementCopy));
-            emitElementUpdate(updatedTextElement);
+           
             break;
     default:
         throw new Error("tool not found");
